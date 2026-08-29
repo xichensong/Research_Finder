@@ -1,86 +1,91 @@
 # Research Finder
 
-A small collection of LLM agents for career / research direction work. They
-share one idea: a plain while-loop around a single model call, where each
-pass lets the model call tools (`web_search`, local datasets, file writes),
-read the results, and decide what to do next — with a verification
-checkpoint that rejects any report whose claims aren't grounded in what the
-tools actually returned this run.
+An LLM agent that finds professors at a university whose recent work matches
+your research interests, then drafts a tailored outreach email for each one.
 
-Nothing is ever sent on your behalf. Outreach emails and application
-materials are drafted to disk for you to review and send yourself.
+How it works: a plain while-loop around a single model call. Each pass lets
+the model call tools (`web_search`, file writes), read the results, and
+decide what to do next. A verification checkpoint rejects any draft or index
+report whose claims aren't grounded in what the tools actually returned that
+run.
+
+Nothing is ever sent on your behalf. Emails are drafted to disk for you to
+review and send yourself. The agent also remembers who it drafted across
+runs, so repeat runs give you non-overlapping batches.
 
 ## Setup
 
 ```bash
 pip install -r requirements.txt
-```
-
-Set whichever API key the agent you're running needs (see table below):
-
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
 export OPENAI_API_KEY=sk-...
 ```
 
-No key is stored in the repo — each agent constructs its client from the
-environment at runtime.
+No key is stored in the repo — the client is built from the environment at
+runtime.
 
 ## Your profile
 
-Most agents take a profile file as their first argument. Copy the template
-and fill it in:
+The agent takes a profile file (Markdown) as its first argument. Copy the
+template and fill it in:
 
 ```bash
 cp profile_template.md my_profile.md
 ```
 
-`my_profile.md` stays local — it's git-ignored and only ever read from disk
-and passed to the model as context.
+`my_profile.md` stays local — it's git-ignored, and only ever read from disk
+and passed to the model as context. Keep it out of any public repo; it's
+personal data in plain text.
 
-## The agents
+### Turning a resume into the profile
 
-| Script | Provider | What it does |
-| --- | --- | --- |
-| `professor_outreach_agent.py` | OpenAI | Finds professors at a university whose recent work matches your interests, drafts a tailored outreach email per professor to `sandbox/drafts/professors/`, and writes an index report. Remembers who it drafted across runs so repeat runs don't overlap. |
-| `next_steps_agent.py` | OpenAI | Given your profile and directions you're weighing, produces concrete next steps grounded in real current opportunities and realistic entry paths. Logs opportunities and drafts application materials via `action_tools.py`. |
-| `trend_direction_agent.py` | OpenAI | Layered comparison of two countries and a directional call on where their relationship is headed. |
-| `technology_direction_agent.py` | OpenAI | Assesses whether one technology/trend is headed toward mainstream, a narrow niche, or fading. |
-| `backtest.py` | OpenAI | Process-check harness for the trend agent's method: blind prediction on a period snapshot, then a separate informed grading pass. |
-| `agent_manual.py` / `agent_runner.py` | Anthropic | Minimal reference agents showing the raw loop (hand-written vs. SDK Tool Runner). |
-| `agent_manual_openai.py` | OpenAI | The same minimal agent on OpenAI's Responses API. |
+The agent reads Markdown, not PDFs. To build `my_profile.md` from a
+resume/transcript:
 
-### Examples
+1. Open `profile_template.md` — the `EXAMPLE` blocks show the level of
+   detail that's actually useful. Vague entries ("good at coding") give the
+   agent nothing to work with; specific ones ("built X with Y, took
+   graduate-level Z") do.
+2. Fill in each section from your resume: education (degree, school,
+   expected graduation, relevant coursework, GPA if you want it weighed),
+   research/work experience, projects, technical skills, and — most
+   important — the research areas and problems you actually want to work on.
+3. If a fact isn't on your resume, either leave it out or mark it
+   `unknown` rather than guessing. Delete any section that doesn't apply.
+4. Shortcut: paste your resume text (and transcript, if relevant) into any
+   LLM along with `profile_template.md` and ask it to fill the template in
+   that exact structure — then read the result and correct anything it
+   inferred wrong before saving as `my_profile.md`.
+
+## Run it
 
 ```bash
 python professor_outreach_agent.py my_profile.md "UC Berkeley" "ML,AI,Probability,RL" 10
 ```
 
-```bash
-python next_steps_agent.py my_profile.md "next 6 months" "ML,AI,Quant,Startup"
-```
+Arguments:
 
-```bash
-python trend_direction_agent.py "United States" "China" "next 20 years"
-python trend_direction_agent.py "United States" "China" "next 20 years" technological
-```
+| Position | Argument | Notes |
+| --- | --- | --- |
+| 1 | profile file | e.g. `my_profile.md` |
+| 2 | university | quoted, e.g. `"UC Berkeley"` |
+| 3 | research areas | comma-separated, quoted, e.g. `"ML,AI,Probability,RL"` |
+| 4 | count | optional, default 10 — how many professors to draft |
+| 5 | token budget | optional — stop the run (keeping drafts already saved) once total tokens cross this number. Leave off the first run to see real usage in the printed summary, then set an informed budget. |
 
-```bash
-python technology_direction_agent.py "quantum computing" "next 15 years"
-```
+Each run automatically excludes professors drafted in a previous run (see
+`contacted_professors.json`), so you can just run it again for the next
+batch.
 
-```bash
-python backtest.py "United States" "China" 2005 20 snapshots/us_china_2005.txt
-```
+## Outputs
 
-Most agents accept an optional trailing argument to run a single section
-instead of the full report, which also shrinks the tool list. The
-professor agent accepts an optional `count` and `token_budget`.
+- `sandbox/drafts/professors/*.md` — one drafted email per professor, plus
+  an index report. Git-ignored.
+- `action_items.json` — a tracked "send this email" item per draft, created
+  automatically. Git-ignored.
+- `contacted_professors.json` — the cross-run list of who's been drafted.
+  Git-ignored.
 
-## Action items
-
-`next_steps_agent.py` and `professor_outreach_agent.py` log tracked items to
-`action_items.json` (git-ignored). Manage them any time:
+Manage the tracked items any time:
 
 ```bash
 python action_tools.py list
@@ -89,22 +94,13 @@ python action_tools.py done 3
 python action_tools.py in_progress 5
 ```
 
-## Outputs
-
-- `sandbox/drafts/` — drafted emails and materials (git-ignored)
-- `action_items.json`, `contacted_professors.json` — local run state, created
-  automatically, git-ignored
-
 ## Layout
 
 ```
-*_agent.py          the agents
-action_tools.py     action-item + draft tracking (CLI + tools)
-tools.py            shared file tools (sandboxed read/write/list)
-verification.py     grounding checkpoint used by the report agents
-humanizer.py        light pass to de-robotify drafted prose
-*_data.py           local datasets the agents ground claims in
-*_cases.json         "
-career_paths.json    "
-snapshots/          period snapshots for backtest.py
+professor_outreach_agent.py   the agent
+action_tools.py               action-item + draft tracking (CLI + tools)
+tools.py                      sandboxed file read/write/list
+verification.py               grounding checkpoint for drafts and reports
+humanizer.py                  light pass to de-robotify drafted prose
+profile_template.md           copy to my_profile.md and fill in
 ```
