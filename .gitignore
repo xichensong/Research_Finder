@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.DS_Store
+.env
+venv/
+.venv/
+
+# Local personal data — never commit
+my_profile.md
+action_items.json
+contacted_professors.json
+sandbox/drafts/
+sandbox/applications/

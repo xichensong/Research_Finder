@@ -1,0 +1,167 @@
+[
+  {
+    "id": "internet_www",
+    "name": "The internet / World Wide Web",
+    "period": "1991-2000",
+    "category": "infrastructure",
+    "early_signals": "Academic/research network opened to commercial use in 1991; Mosaic browser (1993) made it usable by non-technical people; growth was already exponential in raw user counts by the mid-1990s, but skeptics pointed out most people still had no practical daily use for it and dial-up access was slow and expensive.",
+    "actual_trajectory": "Adoption accelerated faster than most forecasts, becoming a general-purpose infrastructure layer within a decade. The 1995-2001 dot-com bubble saw massive overinvestment and a subsequent crash, but the underlying adoption curve for the internet itself never reversed — it kept growing straight through the crash.",
+    "outcome": "mainstream",
+    "key_lesson": "A technology can be correctly identified as transformative even while the specific companies built on top of it mostly fail — the macro adoption trend and the fate of any single entrant are different questions. Exponential early user growth combined with falling access cost was the real signal, not any single company's valuation.",
+    "tags": ["infrastructure", "exponential_adoption", "cost_curve_driven", "network_effects", "bubble_survives_crash"]
+  },
+  {
+    "id": "smartphones",
+    "name": "Smartphones (iPhone-era)",
+    "period": "2007-2012",
+    "category": "consumer_hardware",
+    "early_signals": "iPhone launched 2007 without a physical keyboard or an app store initially, widely mocked by incumbents (a famous 2007 Microsoft CEO comment dismissed it as having no chance of significant market share). App Store opened 2008, third-party developer ecosystem grew immediately.",
+    "actual_trajectory": "Became the dominant computing form factor globally within about 5 years, reshaping software, advertising, payments, and photography industries along the way.",
+    "outcome": "mainstream",
+    "key_lesson": "Incumbent dismissal of a new product as a toy or niche is not a reliable signal — the incumbents whose existing business the new product threatens have a structural blind spot. A genuinely new interaction paradigm (touch) plus a platform ecosystem (app store) compounded faster than experienced executives expected.",
+    "tags": ["consumer_hardware", "platform_network_effects", "incumbent_dismissal", "interaction_paradigm_shift"]
+  },
+  {
+    "id": "cloud_computing",
+    "name": "Cloud computing (AWS-era)",
+    "period": "2006-2015",
+    "category": "infrastructure",
+    "early_signals": "AWS launched EC2/S3 in 2006, initially adopted mainly by startups who couldn't afford their own data centers; enterprise IT departments were broadly skeptical about handing infrastructure and security to a third party.",
+    "actual_trajectory": "Adoption spread from startups to mainstream enterprise over roughly a decade as cost, reliability, and security track record accumulated; became the default way to deploy infrastructure rather than the exception.",
+    "outcome": "mainstream",
+    "key_lesson": "A technology can start by serving only the segment of the market that has no other option (cash-poor startups) and still be on a path to mainstream dominance — the initial adopter profile being 'those with no alternative' isn't evidence the tech is niche, if the cost/reliability curve keeps improving.",
+    "tags": ["infrastructure", "enterprise_adoption", "cost_curve_driven", "gradual_adoption", "skepticism_from_incumbents"]
+  },
+  {
+    "id": "deep_learning",
+    "name": "Deep learning / modern AI",
+    "period": "2012-2023",
+    "category": "software_platform",
+    "early_signals": "AlexNet's 2012 ImageNet win was a step-change result, driven by a combination of much larger labeled datasets, GPUs repurposed for training, and refined neural network architectures. Research paper volume and top-lab hiring in the area both grew sharply after 2012, well before the broader public noticed anything.",
+    "actual_trajectory": "Capability scaled rapidly through the 2010s (image recognition, translation, then large language models), with compute investment and model scale both growing by orders of magnitude; by the early 2020s it had moved from a research topic to mainstream consumer products and a dominant corporate investment priority.",
+    "outcome": "mainstream",
+    "key_lesson": "A sharp, measurable technical step-change (not just gradual improvement) combined with a compounding resource curve (more data, more compute, more researchers, each attracting more of the next) is a stronger early signal than public visibility — the field was already inflecting years before most non-specialists had heard of it.",
+    "tags": ["software_platform", "research_signal", "compute_cost_driven", "step_change_breakthrough", "compounding_investment"]
+  },
+  {
+    "id": "personal_computers",
+    "name": "Personal computers",
+    "period": "1975-1985",
+    "category": "consumer_hardware",
+    "early_signals": "Early machines (Altair 8800, 1975) were hobbyist kits with no obvious mainstream use case; Apple II (1977) and the spreadsheet application VisiCalc (1979) gave a first concrete 'killer app' reason for a non-hobbyist to buy one.",
+    "actual_trajectory": "Adoption moved from hobbyists to small businesses (via spreadsheets/word processing) to households over about a decade; IBM's entry in 1981 legitimized the category for corporate purchasing.",
+    "outcome": "mainstream",
+    "key_lesson": "A technology with no obvious mainstream use case at launch can still be on a path to ubiquity if a genuine 'killer application' emerges that gives a concrete, non-hobbyist reason to adopt — the search for that specific use case is often the actual gating factor, not the underlying technology's maturity.",
+    "tags": ["consumer_hardware", "killer_app_dependent", "gradual_adoption", "no_initial_use_case"]
+  },
+  {
+    "id": "solar_power",
+    "name": "Solar photovoltaic power",
+    "period": "1970s-2020s",
+    "category": "energy",
+    "early_signals": "Touted as a near-future mainstream energy source as early as the 1970s oil shocks; cost per watt remained far above fossil fuels for decades, and 'solar is about to be competitive' predictions recurred roughly every decade without materializing on schedule.",
+    "actual_trajectory": "Cost per watt fell on a remarkably steady long-run exponential curve (a learning-curve effect tied to cumulative production volume) for over 40 years; it only crossed into being cost-competitive with fossil fuels in most markets in the 2010s-2020s, after which deployment growth became rapid.",
+    "outcome": "delayed_but_mainstream",
+    "key_lesson": "A technology can be correctly identified as eventually huge while being wrong by decades on timing — the underlying cost curve was real and steady the whole time, but 'this will be big' and 'this will be big soon' are different claims, and conflating them produces a technically-right, practically-useless call. A steady, measurable cost-decline curve is a better timing signal than any single year's headlines.",
+    "tags": ["energy", "cost_curve_driven", "long_gestation", "repeated_premature_hype", "learning_curve_effect"]
+  },
+  {
+    "id": "nuclear_power",
+    "name": "Nuclear power (US/Western expansion)",
+    "period": "1950s-1980s",
+    "category": "energy",
+    "early_signals": "1950s rhetoric promised electricity 'too cheap to meter'; strong government backing and genuine technical breakthroughs in reactor design generated high expectations for rapid, large-scale rollout.",
+    "actual_trajectory": "Construction costs rose sharply over time rather than falling (the opposite of a typical learning curve), regulatory requirements tightened after accidents (Three Mile Island 1979, later Chernobyl 1986), and public opposition grew; US new-plant construction largely stalled by the 1980s despite the technology working as designed.",
+    "outcome": "faded",
+    "key_lesson": "A technology can work exactly as intended on the engineering merits and still fail to achieve the hyped mainstream rollout, when non-technical factors (cost trajectory going the wrong way, regulatory response to low-probability high-consequence accidents, public perception) dominate the outcome. Technical soundness alone is not sufficient evidence for a 'will be huge' call — check whether the cost curve is actually improving, not just whether the engineering works.",
+    "tags": ["energy", "regulatory_blocked", "hype_overshoot", "public_perception_driven", "cost_curve_reversed"]
+  },
+  {
+    "id": "segway",
+    "name": "Segway personal transporter",
+    "period": "2001-2009",
+    "category": "consumer_hardware",
+    "early_signals": "Pre-launch hype (fueled by leaked comments from prominent tech figures suggesting it would be as important as the internet) was extremely high before the public had even seen the product; launched in 2001 to enormous media attention.",
+    "actual_trajectory": "Actual sales were a small fraction of pre-launch projections (tens of thousands over years, not the hundreds of thousands per year projected); it found a real but narrow niche (security/tour guides, warehouses) rather than the promised reinvention of urban transport.",
+    "outcome": "niche",
+    "key_lesson": "Extreme pre-launch hype from insiders with no public product to evaluate is a warning sign, not a confirming signal — it often reflects excitement about the engineering rather than validated demand. A concrete, checkable question ('what specific problem does this solve better than existing options, for whom') separates this case from ones like the iPhone, which also had polarized reactions but a clear immediate use case for early adopters.",
+    "tags": ["consumer_hardware", "hype_overshoot", "insider_hype_before_launch", "no_clear_use_case", "niche_outcome"]
+  },
+  {
+    "id": "google_glass",
+    "name": "Google Glass",
+    "period": "2012-2015",
+    "category": "consumer_hardware",
+    "early_signals": "Heavy media coverage and a high-profile 2012 public demo (skydivers streaming live video) generated substantial hype; released to developers and limited public sale ('Explorer' program) in 2013-2014 at high price.",
+    "actual_trajectory": "Consumer version was discontinued in 2015 amid privacy backlash, high price, limited practical utility, and social awkwardness of the device; the underlying technology was later repositioned as a narrow enterprise/industrial tool, which found modest real use.",
+    "outcome": "faded",
+    "key_lesson": "A dramatic public demo is evidence the technology works, not evidence people want to buy and wear it daily — social/cultural fit (would normal people actually use this in public) is a distinct question from technical capability, and this case failed specifically on the social dimension rather than the technical one.",
+    "tags": ["consumer_hardware", "hype_overshoot", "social_fit_failure", "fast_flop", "later_enterprise_niche"]
+  },
+  {
+    "id": "vr_2016",
+    "name": "Consumer virtual reality (Oculus-era)",
+    "period": "2012-2020",
+    "category": "consumer_hardware",
+    "early_signals": "Oculus Kickstarter (2012) and subsequent $2B Facebook acquisition (2014) generated expectations of an imminent new mainstream computing platform; 2016 consumer headset launches (Rift, Vive, PSVR) were widely predicted to be a breakout year.",
+    "actual_trajectory": "Adoption grew steadily but far more slowly than projected — hardware remained expensive and bulky, compelling content was scarce, and it settled into a real-but-modest gaming niche rather than the mainstream platform shift that was predicted for the mid-2010s.",
+    "outcome": "delayed_but_mainstream",
+    "key_lesson": "A technology can have genuinely improving hardware and real committed investment from major companies and still badly miss its predicted adoption timeline if the actual experience (cost, comfort, available content) isn't yet good enough for mainstream users — 'major companies are investing heavily' is a weaker signal than 'the current-generation product is good enough for a non-enthusiast to want it.'",
+    "tags": ["consumer_hardware", "hype_overshoot", "long_gestation", "content_ecosystem_dependent", "major_investment_not_sufficient"]
+  },
+  {
+    "id": "3d_printing",
+    "name": "Consumer 3D printing",
+    "period": "2009-2015",
+    "category": "consumer_hardware",
+    "early_signals": "Patent expirations around 2009 enabled a wave of affordable consumer/hobbyist 3D printers; extensive media coverage around 2012-2013 predicted a 'third industrial revolution' with printers in most homes.",
+    "actual_trajectory": "Consumer adoption plateaued well below projections — most people had no recurring need to print physical objects at home; the technology found a real, durable niche in industrial prototyping, specialized manufacturing, and hobbyist/maker communities instead.",
+    "outcome": "niche",
+    "key_lesson": "'The cost barrier is falling' is necessary but not sufficient for mainstream consumer adoption — you also need a recurring use case ordinary people actually have, not just a one-time novelty. This case's industrial/professional niche was real and valuable, just far smaller than the consumer-mainstream framing implied.",
+    "tags": ["consumer_hardware", "hype_overshoot", "no_recurring_use_case", "niche_outcome", "b2b_survives_b2c_fails"]
+  },
+  {
+    "id": "blockchain_enterprise",
+    "name": "Enterprise blockchain (post-2017 hype cycle)",
+    "period": "2016-2022",
+    "category": "software_platform",
+    "early_signals": "Following Bitcoin's price rise and the 2017 ICO boom, enterprise interest surged — most major consulting firms and large corporations launched blockchain pilot programs across supply chain, finance, and identity use cases.",
+    "actual_trajectory": "The large majority of announced enterprise pilots were quietly discontinued within a few years without reaching production deployment at scale; the core problem was usually that a conventional (non-blockchain) database solved the same business problem more simply, since most enterprise use cases didn't actually need a trustless, decentralized ledger. Cryptocurrency itself, as a separate category, persisted and grew despite this.",
+    "outcome": "faded",
+    "key_lesson": "Widespread corporate pilot programs are a weaker signal than they appear — announcing a pilot is cheap and generates good press, while most pilots quietly die before reaching a press release of their own. Ask specifically whether the new technology solves the business problem better than the boring existing solution, not just whether many organizations are experimenting with it. Note also that the fate of an underlying technology (blockchain) can diverge sharply by use case (crypto assets vs. enterprise ledgers) — don't treat 'blockchain' as one monolithic bet.",
+    "tags": ["software_platform", "hype_overshoot", "pilot_program_signal_weak", "existing_solution_sufficient", "diverges_by_use_case"]
+  },
+  {
+    "id": "electric_vehicles",
+    "name": "Electric vehicles (Tesla-era mainstreaming)",
+    "period": "2008-2023",
+    "category": "consumer_hardware",
+    "early_signals": "Tesla Roadster (2008) was an expensive, low-volume proof of concept widely dismissed by incumbent automakers as a niche product for enthusiasts, given battery cost, range limitations, and charging infrastructure gaps.",
+    "actual_trajectory": "Battery costs fell steadily (a learning-curve effect similar to solar) while range improved and charging infrastructure expanded; incumbent automakers progressively committed to full electrification roadmaps through the 2010s-2020s as the segment's growth rate consistently outpaced skeptical forecasts, though the pace of the transition has been uneven by region and slower than the most bullish projections in some markets.",
+    "outcome": "mainstream",
+    "key_lesson": "Incumbent dismissal of an expensive, low-volume early product ignores that the relevant question is the cost trajectory, not the current price point — a steadily falling cost curve on the core constraining input (battery cost per kWh here, same pattern as solar) is a much stronger signal than the current product's price or range.",
+    "tags": ["consumer_hardware", "cost_curve_driven", "incumbent_dismissal", "gradual_adoption", "learning_curve_effect"]
+  },
+  {
+    "id": "supersonic_flight",
+    "name": "Commercial supersonic flight (Concorde)",
+    "period": "1969-2003",
+    "category": "infrastructure",
+    "early_signals": "First flew 1969, entered commercial service 1976; widely expected by aviation planners in the 1960s to be the future of long-haul air travel, with multiple airlines and governments planning fleets.",
+    "actual_trajectory": "High fuel consumption, high ticket prices, sonic-boom noise restrictions that banned overland supersonic flight, and a fatal 2000 crash meant only two airlines ever operated it commercially and it never expanded beyond a small number of premium transatlantic routes; retired in 2003 with no successor.",
+    "outcome": "faded",
+    "key_lesson": "A technology can be a genuine engineering triumph that works exactly as designed and still fail commercially and regulatorily — check whether the economics (fuel cost, ticket price the market will bear) and the regulatory environment (noise restrictions) support scaling, not just whether the core engineering problem was solved.",
+    "tags": ["infrastructure", "regulatory_blocked", "cost_curve_reversed", "engineering_success_commercial_failure"]
+  },
+  {
+    "id": "crispr",
+    "name": "CRISPR gene editing",
+    "period": "2012-present",
+    "category": "biotech",
+    "early_signals": "2012 papers demonstrated CRISPR-Cas9 as a dramatically simpler and cheaper gene-editing method than prior techniques; research paper volume and biotech startup funding both grew very rapidly starting around 2013.",
+    "actual_trajectory": "Rapid adoption as the default research tool across molecular biology within a few years; the first CRISPR-based therapy received regulatory approval in 2023, but broad clinical and commercial impact is still in early stages as of the dataset's writing, and long-term outcomes for the therapeutic and agricultural application areas remain genuinely uncertain.",
+    "outcome": "too_early_to_call",
+    "key_lesson": "Some technologies have unambiguous, fast, and huge impact in one domain (here, research tooling) while their impact in other domains they're hyped for (clinical therapies, agriculture) is still genuinely undetermined years later — don't let a clear signal in one application area get generalized into a confident call about a different application area of the same underlying technology.",
+    "tags": ["biotech", "research_signal", "step_change_breakthrough", "diverges_by_use_case", "still_unfolding"]
+  }
+]

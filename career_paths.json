@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ml_engineer",
+    "direction": "ML engineering",
+    "typical_entry_path": "Most people entering ML engineering come through a standard software engineering path first, or a CS/adjacent degree with several hands-on ML projects that go beyond following a tutorial (e.g., deploying a model, handling real messy data, building an end-to-end pipeline, not just training a model on a clean benchmark dataset in a notebook). Strong software engineering fundamentals (data structures, testing, version control, ability to write production-quality code) matter as much as ML theory for this specific track, because the job is mostly about building and maintaining systems that use ML, not inventing new ML methods.",
+    "common_prerequisites": "Solid programming (usually Python), comfort with at least one ML framework (PyTorch or TensorFlow), basic statistics/linear algebra, and — the differentiator most candidates lack — evidence of having taken a model past the notebook stage into something that runs reliably on real data.",
+    "common_first_roles": "ML engineer, applied scientist (engineering-leaning), backend/platform engineer on an ML team, MLOps engineer.",
+    "common_pitfalls": "Treating Kaggle-competition skill as sufficient preparation — it teaches modeling but not the production/deployment/data-quality skills that dominate the actual job. Also under-investing in plain software engineering fundamentals while over-investing in the newest model architectures.",
+    "tags": ["ml", "ai", "software_engineering", "applied", "production_systems", "portfolio_driven"]
+  },
+  {
+    "id": "ai_research",
+    "direction": "AI research",
+    "typical_entry_path": "The research-scientist track is the most credential-dependent of these four — most people doing original AI research at labs or in academia have a graduate degree (MS often sufficient for applied research roles, PhD typically expected for pure research scientist roles at top labs), OR have an unusually strong independent research portfolio (published work, even at workshop-tier venues, or a widely-noticed open-source project) that substitutes for the credential. There isn't really a fast, credential-free path into pure research roles the way there sometimes is for engineering roles.",
+    "common_prerequisites": "Strong math foundation (linear algebra, probability, optimization), the ability to read and reproduce results from papers, and — for anyone trying to skip the PhD route — a concrete research artifact (a paper, a widely-used implementation, a notable competition result) that demonstrates research taste, not just engineering skill.",
+    "common_first_roles": "Research engineer (hybrid role, most accessible entry point without a PhD), research intern (often the actual on-ramp to a full-time offer at top labs), applied scientist.",
+    "common_pitfalls": "Assuming ML engineering experience transfers directly to research roles — the skill of building reliable systems and the skill of generating and testing novel research ideas are genuinely different, and interviewers for research roles usually probe specifically for the second one.",
+    "tags": ["ai", "ml", "research", "credential_dependent", "graduate_degree", "publication_driven"]
+  },
+  {
+    "id": "quant_researcher",
+    "direction": "Quant research/trading",
+    "typical_entry_path": "Quant research and trading roles at most firms recruit heavily from a narrow set of strong math/CS/physics/stats programs and place significant weight on competition performance (math olympiads, competitive programming, Kaggle-style competitions) and raw quantitative reasoning ability, tested via notoriously difficult interview processes (probability puzzles, mental math, market-making games). This is a track where the interview process itself is a distinct skill to prepare for, somewhat separately from the underlying knowledge.",
+    "common_prerequisites": "Very strong probability/statistics, comfort with fast mental math, at least one programming language used fluently (often C++ for trading-latency-sensitive roles, Python for research-heavy roles), and demonstrated competitive performance in a quantitative domain (competition math, competitive programming, or a strong quantitative finance project).",
+    "common_first_roles": "Quant researcher, quant trader, quant developer (see separate entry — a more engineering-leaning variant of this track).",
+    "common_pitfalls": "Underestimating how interview-specific this track is — strong academic performance alone doesn't guarantee strong performance in the specific style of rapid-fire probability/market interviews these firms use, and that interview skill needs its own dedicated practice, separate from coursework.",
+    "tags": ["quant", "finance", "math_heavy", "competition_driven", "interview_specific_prep"]
+  },
+  {
+    "id": "quant_developer",
+    "direction": "Quant research/trading",
+    "typical_entry_path": "A more engineering-leaning variant of the quant track: instead of generating trading strategies, the job is building and maintaining the low-latency systems and infrastructure that quant research and trading run on. This path is more accessible from a standard strong software engineering background than the pure quant researcher track, while still requiring enough quantitative fluency to work closely with researchers.",
+    "common_prerequisites": "Strong systems programming (often C++), understanding of low-latency system design, and enough math/stats fluency to communicate with quant researchers, though less depth than the pure research track requires.",
+    "common_first_roles": "Quant developer, trading systems engineer, infrastructure engineer at a quant fund.",
+    "common_pitfalls": "Not realizing this is a genuinely different job from quant researcher despite the similar-sounding title — going into interviews prepared for research-style probability puzzles when the role is actually evaluated on systems/engineering depth, or vice versa.",
+    "tags": ["quant", "finance", "software_engineering", "systems", "low_latency"]
+  },
+  {
+    "id": "startup_early_joiner",
+    "direction": "Startups",
+    "typical_entry_path": "Joining an early-stage startup (as opposed to founding one) generally weighs demonstrated ability to ship real things independently and move fast more heavily than credentials or pedigree — small teams need people who can own a broad scope with little oversight from day one. Warm connections (through a network, a previous internship, a shared project) matter disproportionately here because early-stage hiring is often informal and fast, without the structured pipeline larger companies use.",
+    "common_prerequisites": "A portfolio of shipped, real (not just coursework) projects; comfort with ambiguity and broad scope rather than a narrow specialization; some way of getting on a founder's radar (network, a cold but genuinely specific and well-researched outreach, a relevant open-source contribution).",
+    "common_first_roles": "Generalist early engineer, founding-adjacent hire (often titled well above what the scope would suggest at a larger company), early growth/ops hire depending on background.",
+    "common_pitfalls": "Applying to early-stage startups the same way you'd apply to a large company (generic application through a job board) — this segment of hiring runs much more on network and direct outreach, and cold job-board applications to true early-stage companies often go nowhere regardless of qualification.",
+    "tags": ["startup", "early_stage", "network_driven", "generalist", "shipping_over_credentials"]
+  },
+  {
+    "id": "startup_founder",
+    "direction": "Startups",
+    "typical_entry_path": "Founding is the least credential-gated of these paths and the most dependent on having (or being able to quickly develop) a specific, validated problem and either a cofounder or a skill set covering both building and selling. Most successful first-time founders have prior operating experience (having worked at a startup, or built something with real users before founding) rather than founding straight out of school with no prior exposure to how a company actually runs.",
+    "common_prerequisites": "A specific problem you understand deeply (often from prior experience in that domain, not just general enthusiasm), the ability to build a functional first version yourself or with a cofounder, and enough runway (savings, or a support structure) to survive a pre-revenue period.",
+    "common_first_roles": "N/A — the path itself is the role. The more common realistic 'first step' is joining or building something small first (a side project with real users) before attempting a full-time founding leap.",
+    "common_pitfalls": "Founding as a first career move with no prior exposure to how an early company actually operates, or founding around a technology you're excited about rather than a problem you've validated someone will pay to have solved.",
+    "tags": ["startup", "founding", "problem_driven", "high_variance", "network_and_domain_experience_helps"]
+  },
+  {
+    "id": "data_scientist",
+    "direction": "Adjacent",
+    "typical_entry_path": "Data science is frequently confused with ML engineering but is a genuinely different job at most companies — more focused on analysis, experimentation (A/B testing), and business-facing statistical reasoning than on building and shipping ML systems. It's a common and reasonable landing spot for people with strong stats/analytics backgrounds who are ML-adjacent but not deep into ML engineering or research.",
+    "common_prerequisites": "Strong statistics, SQL, data visualization/communication skills, and the ability to translate a business question into an analysis — arguably more important here than deep ML modeling skill.",
+    "common_first_roles": "Data analyst (common first step), data scientist, analytics engineer.",
+    "common_pitfalls": "Treating this as a stepping stone into ML engineering when the two roles' day-to-day skills diverge more than the similar-sounding titles suggest — it can work as a path in, but only with deliberate additional effort on the software-engineering side.",
+    "tags": ["ml", "adjacent", "statistics", "analytics", "business_facing"]
+  },
+  {
+    "id": "software_engineer_general",
+    "direction": "Adjacent",
+    "typical_entry_path": "General software engineering is the most credential-flexible and highest-volume hiring path of all of these, and is also the most common realistic stepping stone into ML engineering, quant development, or an early-stage startup role for someone who isn't yet specialized. Strong fundamentals (data structures/algorithms, one or two solid projects, ability to pass a standard coding interview) open more doors at this stage than depth in any single specialization.",
+    "common_prerequisites": "Data structures and algorithms fluency (for interviews), at least one substantial project demonstrating you can build something real end-to-end, and standard coding-interview preparation.",
+    "common_first_roles": "Software engineer, SWE intern (the most common on-ramp), backend/frontend/full-stack engineer.",
+    "common_pitfalls": "Specializing too early into a narrow niche (e.g., only ML) before having basic engineering fundamentals solid enough to pass a general coding interview, which narrows the realistic set of entry-level opportunities unnecessarily.",
+    "tags": ["software_engineering", "general", "interview_prep", "flexible", "common_stepping_stone"]
+  }
+]
