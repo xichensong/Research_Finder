@@ -197,6 +197,16 @@ def _mailto(to: str, subject: str, body: str) -> str:
     return f"mailto:{quote(to)}?subject={quote(subject)}&body={quote(body)}"
 
 
+def _gmail_compose(to: str, subject: str, body: str) -> str:
+    """A Gmail web compose URL — opens a compose window, in whatever account
+    the browser is signed into, with everything pre-filled. Still needs the
+    person to press Send."""
+    return (
+        "https://mail.google.com/mail/?view=cm&fs=1"
+        f"&to={quote(to)}&su={quote(subject)}&body={quote(body)}"
+    )
+
+
 def rebuild_outbox() -> str:
     """Regenerate OUTBOX.html from _leads.json. Safe to call standalone."""
     leads = _load_leads()
@@ -222,12 +232,14 @@ def rebuild_outbox() -> str:
             # contact line so the founder can reply or look you up.
             contact_line = "  |  ".join(b for b in [app["phone"], app["linkedin"], app["portfolio"]] if b)
             body_with_sig = l["body"] + (f"\n\n{contact_line}" if contact_line else "")
-            link = _mailto(l["send_to"], l.get("subject", ""), body_with_sig)
+            gmail = _gmail_compose(l["send_to"], l.get("subject", ""), body_with_sig)
+            mail = _mailto(l["send_to"], l.get("subject", ""), body_with_sig)
             action = (
                 f"<p><b>To</b> {e(l['send_to'])}<br><b>Subject</b> {e(l.get('subject',''))}</p>"
                 f"<pre>{e(body_with_sig)}</pre>"
-                f"<a class='btn' href=\"{e(link)}\">Open in email client</a>"
-                f"<p class='hint'>Opens your mail app with everything filled. Read it, then send.</p>"
+                f"<a class='btn' href=\"{e(gmail)}\" target='_blank' rel='noopener'>Open in Gmail</a> "
+                f"<a class='btn secondary' href=\"{e(mail)}\">Open in default mail app</a>"
+                f"<p class='hint'>Opens a compose window with everything filled. Read it, then press Send yourself.</p>"
             )
         else:
             url = l.get("apply_url") or l.get("posting_url", "")
@@ -256,12 +268,13 @@ def rebuild_outbox() -> str:
  .lead{{color:#555}} .meta{{color:#666;font-size:.9rem;margin:.2rem 0 .6rem}}
  section{{border:1px solid #ddd;border-radius:8px;padding:1rem 1.1rem;margin:1rem 0}}
  pre{{white-space:pre-wrap;background:#f6f6f6;border-radius:6px;padding:.8rem;font:13px/1.5 ui-monospace,monospace}}
- .btn{{display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;padding:.5rem .9rem;border-radius:6px;font-weight:600}}
+ .btn{{display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;padding:.5rem .9rem;border-radius:6px;font-weight:600;margin:.2rem .3rem .2rem 0}}
+ .btn.secondary{{background:#eee;color:#1a1a1a;border:1px solid #ccc}}
  .hint{{color:#777;font-size:.85rem}} table{{border-collapse:collapse;width:100%;margin:.5rem 0}}
  td{{border:1px solid #e2e2e2;padding:.4rem .6rem;vertical-align:top}} td:first-child{{width:110px;color:#555;font-weight:600}}
  .todo{{color:#b00}} details{{margin:.4rem 0}} summary{{cursor:pointer;color:#555}}
  @media(prefers-color-scheme:dark){{body{{background:#151515;color:#e8e8e8}}section{{border-color:#333}}pre{{background:#1f1f1f}}
-  .btn{{background:#e8e8e8;color:#151515}}td{{border-color:#333}}}}
+  .btn{{background:#e8e8e8;color:#151515}}.btn.secondary{{background:#2a2a2a;color:#e8e8e8;border-color:#444}}td{{border-color:#333}}}}
 </style></head><body>
 <h1>Outreach outbox</h1>
 <p class="lead">{ready} ready — {email_n} email, {form_n} form. Nothing is sent or submitted. Review each one and click the button yourself.</p>
