@@ -44,8 +44,9 @@ to check between them instead of just asking the model to be careful):
      tracked in code, not whatever the model passes here — so a gate can't
      be bypassed by retyping different text at the last step.
 
-Then one index report (write_file, verified) listing every company that
-made it all the way through.
+Then one index report (write_file) listing every company that made it all
+the way through — humanized (same de-slop pass as the fit points and
+emails), then checked by the grounding verifier.
 
 CROSS-RUN NON-OVERLAP: every company that finishes the pipeline is recorded
 permanently (action_tools.mark_company_contacted, called inside
@@ -251,11 +252,13 @@ posting exists.
 PRIORITY ORDER for what background material to draw the connection from — \
 check the profile below for the person's own stated priority order; if \
 given, follow it. Otherwise use this default, picking the item that \
-genuinely and specifically fits THIS company's work: (1) a shipped, real \
-product with real users; (2) directly relevant internship or research work \
-(e.g. quant/ML pipeline work for an ML or quant startup); (3) \
-self-initiated or first-author research. Do not default to whatever is \
-topically closest if a higher-priority item also genuinely fits.
+genuinely and specifically fits THIS company's work: (1) a company or \
+product the person founded or shipped themselves, especially one with real \
+users — for a startup this is the strongest signal, so lead with it \
+whenever it genuinely connects; (2) independent or first-author research \
+papers; (3) internships or research-assistant positions. Only fall back to \
+a lower-priority item when a higher one doesn't genuinely fit this \
+company's work — not just because a lower one is topically closer.
 
 ALREADY CONTACTED — do not pick any of these companies, they were covered \
 in a previous run: {already_contacted}
@@ -280,8 +283,11 @@ within what the logged summary supports and call it again.
 4. Call propose_email_draft with the email as exactly three paragraphs, \
 120-180 words: (1) short, show you know what they build, name the role if \
 there is one; (2) LONGEST, connect it to the person's experience and what \
-they could contribute; (3) other relevant background plus a direct ask. \
-Paragraph 2 must clearly be the longest.
+they could contribute, leading with the highest-priority background item \
+that fits (see PRIORITY ORDER above); (3) other relevant background plus a \
+direct ask. Paragraph 2 must clearly be the longest. Avoid cold-email \
+cliches: no "the part that caught my eye," "what I keep coming back to," \
+"this resonates with," "I'd love to." Say the specific thing plainly.
 5. Call save_startup_outreach with just the company name to finalize.
 
 Do not fabricate a company, a backer, an opening, or a connection to the \
@@ -621,6 +627,19 @@ def run_agent(
         return result
 
     def verified_write_file(filename: str, content: str) -> str:
+        # Humanize before writing — the index report is model-generated prose
+        # like the fit points and emails, so it gets the same de-slop pass.
+        # The context note keeps headings and URLs intact so the section
+        # check below still finds them.
+        content = humanize_text(
+            client,
+            content,
+            context=(
+                "a markdown index report. Preserve every heading line (starting with "
+                "#, ##, or ###) verbatim, including company names in them, and preserve "
+                "every URL exactly. Only rewrite the prose sentences under the headings."
+            ),
+        )
         write_file(filename, content)
         last_written_content["text"] = content
 

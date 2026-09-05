@@ -48,6 +48,13 @@ plain "is")
 - Excessive hedging ("could potentially possibly")
 - Generic upbeat closers ("the future looks bright", "exciting times \
 ahead")
+- Cold-email and cover-letter cliches: "the part that caught my eye", \
+"what stuck with me", "what I keep coming back to", "this resonates with", \
+"caught my attention", "I was drawn to", "speaks to me", "at the \
+intersection of", "I'd love to", "I'd be thrilled to". Cut the framing and \
+state the specific point directly.
+- Throat-clearing before the substance ("I've been thinking a lot about", \
+"as someone who...", "I couldn't help but notice")
 - Filler phrases ("in order to" → "to", "due to the fact that" → "because")
 - Collaborative-artifact leftovers if any slipped in ("I hope this helps!", \
 "let me know if...")
