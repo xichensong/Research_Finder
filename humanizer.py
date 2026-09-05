@@ -1,6 +1,6 @@
 """
 Ports the anthropic-skills:humanizer skill's actual rules into a standalone
-rewriting pass, for use inside professor_outreach_agent.py (and reusable
+rewriting pass, for use inside startup_outreach_agent.py (and reusable
 elsewhere). This exists because that skill only runs inside a Claude Code
 session — it can't be invoked directly from a standalone script hitting the
 OpenAI API. So instead of guessing at "sound more human," this module
@@ -9,9 +9,8 @@ categories) as the system prompt for an independent rewriting call.
 
 Not a verification gate — a rewriting gate. It always returns text, it
 doesn't pass/fail. Use it AFTER a grounding gate has approved the content
-(see professor_outreach_agent.py's propose_connection_point /
-propose_email_draft), so you're not humanizing something that might still
-get rejected.
+(see startup_outreach_agent.py's propose_fit_point / propose_email_draft),
+so you're not humanizing something that might still get rejected.
 """
 
 from openai import OpenAI
@@ -56,8 +55,8 @@ ahead")
 Then add actual voice: vary sentence length and rhythm, be specific instead \
 of vague, and let it read like one particular person wrote it — not the \
 statistically average sentence for the topic. Keep the tone appropriate to \
-the context you're given (e.g. a cold email to a professor should stay \
-professional and concise — "voice" here means specific and genuine, not \
+the context you're given (e.g. a cold email to a startup founder should \
+stay professional and concise — "voice" here means specific and genuine, not \
 casual or jokey).
 
 Do not change any factual claim, name, paper title, or URL — only rewrite \
@@ -104,7 +103,7 @@ def humanize_text(client: OpenAI, text: str, context: str = "") -> str:
     """
     Rewrite `text` to remove AI-writing patterns per the rules above.
     `context` is optional free text telling the rewriter what the piece is
-    (e.g. "a cold email to a professor" or "a one-paragraph technical
+    (e.g. "a cold email to a startup founder" or "a one-paragraph technical
     connection point") so tone stays appropriate.
     """
     user_content = f"CONTEXT: {context}\n\nTEXT TO HUMANIZE:\n{text}" if context else text

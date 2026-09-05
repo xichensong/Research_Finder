@@ -1,38 +1,29 @@
 """
-Turns next_steps_agent.py's one-shot report into a persistent, trackable
-todo list, plus adjacent capabilities:
+A persistent, trackable to-do list plus the disk-writing helpers
+startup_outreach_agent.py uses:
 
-  - log_opportunity: capture a SPECIFIC real thing found via web_search
-    (an actual posting, course, competition, deadline) as a tracked item
-    with its URL — not just a category of advice.
-  - save_draft: write actual drafted outreach text to disk for the person
-    to review and send THEMSELVES. Never sends anything.
-  - save_application_materials: for one specific logged opportunity, write
-    a dedicated file with the actual application materials — a tailored
-    cover letter, plus draft answers to the application's real questions
-    IF web_search actually found them, or an honest note that the specific
-    questions weren't found (never invented ones) if not. Also logs a
-    tracked "submit application" item pointing at the file. Never submits
-    anything.
-  - save_professor_outreach: for professor_outreach_agent.py — writes a
-    structured draft (professor, paper, connection point, email) and logs
-    a tracked outreach item pointing at it. Never sends anything.
+  - save_startup_outreach: writes a structured draft (company, backer, what
+    they do, the role or a note that there's no posting, the fit point, and
+    the drafted email) and logs a tracked "outreach" action item pointing
+    at it. Records the company as contacted so future runs don't duplicate
+    it. Never sends anything.
+  - add_action_item / list_action_items / mark_item_status: the tracked
+    list itself, usable standalone.
 
-Everything here is local file I/O only — no network calls except what the
-agent's own web_search already does, no side effects outside this project's
-sandbox. That boundary is intentional: submitting an application or sending
-a message on someone's behalf needs their explicit action each time, not a
-script that does it for them.
+Everything here is local file I/O only — no network calls, no side effects
+outside this project. That boundary is intentional: sending an email on
+someone's behalf needs their explicit action each time, not a script that
+does it for them.
 
 Storage: action_items.json in the project root (not sandbox/, since this is
-a persistent record meant to survive and accumulate across many agent runs,
-unlike the disposable per-run reports in sandbox/).
+a persistent record meant to accumulate across many agent runs, unlike the
+disposable per-run reports in sandbox/).
 
 Standalone use (no agent run needed):
   python action_tools.py list
   python action_tools.py list open
   python action_tools.py done 3
-  python action_tools.py add "Register for Stat 134 next term" skill_building
+  python action_tools.py add "Follow up with <company>" outreach
 """
 
 import json
@@ -42,10 +33,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 _STORE_PATH = Path(__file__).parent / "action_items.json"
-_DRAFTS_DIR = Path(__file__).parent / "sandbox" / "drafts"
-_APPLICATIONS_DIR = Path(__file__).parent / "sandbox" / "applications"
-_PROFESSORS_DIR = Path(__file__).parent / "sandbox" / "drafts" / "professors"
-_CONTACTED_PROFESSORS_PATH = Path(__file__).parent / "contacted_professors.json"
+_STARTUPS_DIR = Path(__file__).parent / "sandbox" / "drafts" / "startups"
+_CONTACTED_COMPANIES_PATH = Path(__file__).parent / "contacted_companies.json"
 
 VALID_CATEGORIES = ["application", "opportunity", "skill_building", "outreach", "project", "other"]
 VALID_STATUSES = ["open", "in_progress", "done"]
@@ -128,106 +117,63 @@ def mark_item_status(item_id: int, status: str) -> str:
     return f"No item with id {item_id}."
 
 
-def log_opportunity(title: str, url: str, direction: str, deadline_note: str = "") -> str:
-    """Log a SPECIFIC real opportunity found via web_search — not a general
-    category of advice. Files it as an action item with category
-    'opportunity'. Only call this for something concrete and real that was
-    actually found this run (a real posting, program, or competition), with
-    a real URL — never a plausible-sounding invented one."""
-    return add_action_item(
-        title=title, category="opportunity", direction=direction, url=url, deadline_note=deadline_note
-    )
-
-
-def save_draft(filename: str, content: str) -> str:
-    """Write drafted outreach text to sandbox/drafts/ for the person to
-    review and send themselves. This never sends anything — it only saves
-    text to a local file."""
-    _DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
-    path = _DRAFTS_DIR / filename
-    path.write_text(content)
-    return f"Draft saved to {path.relative_to(Path(__file__).parent)} — review and send it yourself; nothing was sent automatically."
-
-
-def save_application_materials(opportunity_title: str, content: str) -> str:
-    """
-    Write drafted application materials for ONE specific logged opportunity
-    to its own file (filename derived from the opportunity title, so
-    materials are easy to find alongside the tracked item), and log a
-    "submit application" action item pointing at the file.
-
-    `content` should be the actual materials — a tailored cover letter,
-    and either real draft answers to application questions that were
-    genuinely found via web_search, or an explicit honest note that the
-    specific questions weren't found (never fabricated ones). This never
-    submits anything — it's a draft for the person to review, tailor
-    further, and submit themselves.
-    """
-    _APPLICATIONS_DIR.mkdir(parents=True, exist_ok=True)
-    slug = _slugify(opportunity_title)
-    path = _APPLICATIONS_DIR / f"{slug}.md"
-    path.write_text(content)
-
-    rel_path = path.relative_to(Path(__file__).parent)
-    add_action_item(
-        title=f"Submit application: {opportunity_title}",
-        category="application",
-        notes=f"Draft materials at {rel_path} — review, tailor, and submit yourself.",
-    )
-    return (
-        f"Application materials saved to {rel_path}, and a 'submit application' item was "
-        f"logged pointing at it — review and submit yourself; nothing was submitted automatically."
-    )
-
-
-def get_contacted_professors() -> list[str]:
-    """Names of every professor a draft has ever been finalized for, across
-    ALL past runs of professor_outreach_agent.py — not reset between runs.
+def get_contacted_companies() -> list[str]:
+    """Names of every company a draft has ever been finalized for, across
+    ALL past runs of startup_outreach_agent.py — not reset between runs.
     Used to keep successive batches non-overlapping."""
-    if not _CONTACTED_PROFESSORS_PATH.exists():
+    if not _CONTACTED_COMPANIES_PATH.exists():
         return []
-    return json.loads(_CONTACTED_PROFESSORS_PATH.read_text())
+    return json.loads(_CONTACTED_COMPANIES_PATH.read_text())
 
 
-def mark_professor_contacted(professor_name: str) -> None:
-    """Record a professor as contacted, persistently. Called automatically
-    by save_professor_outreach — not meant to be called directly."""
-    contacted = get_contacted_professors()
-    if professor_name not in contacted:
-        contacted.append(professor_name)
-        _CONTACTED_PROFESSORS_PATH.write_text(json.dumps(contacted, indent=2))
+def mark_company_contacted(company_name: str) -> None:
+    """Record a company as contacted, persistently. Called automatically by
+    save_startup_outreach — not meant to be called directly."""
+    contacted = get_contacted_companies()
+    if company_name not in contacted:
+        contacted.append(company_name)
+        _CONTACTED_COMPANIES_PATH.write_text(json.dumps(contacted, indent=2))
 
 
-def save_professor_outreach(
-    professor_name: str, department: str, paper_title: str, paper_url: str, connection_point: str, email_draft: str
+def save_startup_outreach(
+    company_name: str,
+    backer: str,
+    what_they_do: str,
+    posting_url: str,
+    fit_point: str,
+    email_draft: str,
+    open_role_note: str,
 ) -> str:
     """
-    Write a structured draft for ONE professor cold-email: who they are,
-    the specific paper the outreach is anchored on, the one connection
-    point identified, and the actual drafted email text. Logs a tracked
-    "outreach" action item pointing at the file, and records the professor
-    as contacted (see get_contacted_professors) so future runs don't
-    duplicate them. Never sends anything — the person reviews, edits, and
-    sends it themselves.
+    Write a structured draft for ONE startup cold-email: the company and
+    its backer, what they build, the open role (or a note that there isn't
+    one), the single fit point identified, and the actual drafted email.
+    Logs a tracked "outreach" action item pointing at the file, and records
+    the company as contacted (see get_contacted_companies) so future runs
+    don't duplicate it. Never sends anything — the person reviews, edits,
+    and sends it themselves.
     """
-    _PROFESSORS_DIR.mkdir(parents=True, exist_ok=True)
-    slug = _slugify(professor_name)
-    path = _PROFESSORS_DIR / f"{slug}.md"
+    _STARTUPS_DIR.mkdir(parents=True, exist_ok=True)
+    slug = _slugify(company_name)
+    path = _STARTUPS_DIR / f"{slug}.md"
 
     content = (
-        f"# {professor_name} ({department})\n\n"
-        f"## Paper this is anchored on\n{paper_title}\n{paper_url}\n\n"
-        f"## Connection point\n{connection_point}\n\n"
+        f"# {company_name}\n\n"
+        f"**Backer:** {backer}\n\n"
+        f"**What they do:** {what_they_do}\n\n"
+        f"**Role / posting:** {open_role_note}\n{posting_url}\n\n"
+        f"## Fit point\n{fit_point}\n\n"
         f"## Drafted email\n{email_draft}\n"
     )
     path.write_text(content)
-    mark_professor_contacted(professor_name)
+    mark_company_contacted(company_name)
 
     rel_path = path.relative_to(Path(__file__).parent)
     add_action_item(
-        title=f"Send outreach email: {professor_name}",
+        title=f"Send outreach email: {company_name}",
         category="outreach",
         notes=f"Draft at {rel_path} — review and send yourself.",
+        url=posting_url,
     )
     return (
         f"Outreach draft saved to {rel_path}, and a tracked item was logged — "

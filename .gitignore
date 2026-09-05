@@ -8,6 +8,6 @@ venv/
 # Local personal data — never commit
 my_profile.md
 action_items.json
-contacted_professors.json
+contacted_companies.json
 sandbox/drafts/
 sandbox/applications/

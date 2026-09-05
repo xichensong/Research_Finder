@@ -66,26 +66,20 @@ You are a methodology auditor. You did NOT write the report below and have \
 no stake in it being good — your only job is to find grounding problems.
 
 You will be shown a report and an evidence log of everything the research \
-tools actually returned while producing it. Check ONLY for these things:
+tools actually returned while producing it. Check ONLY:
 
-1. Any claim in a "Structural tendencies" section that names a historical \
-case which does NOT appear in the evidence log (i.e. the case was not \
-actually returned by get_country_case_history this run) — this is a \
-fabricated citation.
-2. Any structural/character claim about a country made despite the evidence \
-log showing that country had zero or one case returned for it (the report \
-should have said the dataset doesn't support a pattern claim instead).
-3. Any individual layer (Economic, Technological, Military, Demographic, \
-Diplomatic/political) whose content is NOT backed by at least one web_search \
-query in the evidence log that's clearly about that topic — i.e. the layer \
-reads like it was written from general knowledge with no research behind it \
-at all.
-4. Any place where the verdict/synthesis directly contradicts what an \
-individual or comparative layer actually says.
+1. Any specific factual claim (a name, a company, a paper, a URL, a number) \
+that does NOT trace back to something in the evidence log — a fabricated \
+citation.
+2. Any section whose content is NOT backed by at least one relevant tool \
+call in the evidence log — i.e. it reads like it was written from general \
+knowledge with no research behind it.
+3. Any place where the summary/synthesis directly contradicts what an \
+earlier section or a tool result actually says.
 
-Do NOT critique writing style, do NOT judge whether the forecast is likely \
-correct (that's unknowable), and do NOT invent gaps beyond these four \
-categories — this must stay a grounding check, not a general critique.
+Do NOT critique writing style, do NOT judge whether conclusions are \
+correct, and do NOT invent gaps beyond these categories — this must stay a \
+grounding check, not a general critique.
 
 Respond in EXACTLY this format, nothing else:
 
@@ -109,13 +103,10 @@ def verify_report(
     Run both checks. Returns (passed, gaps). `passed` is True only if BOTH
     the mechanical section check and the independent grounding check pass.
 
-    `system_prompt` defaults to the historical-case-grounding checklist below
-    (what trend_direction_agent.py / technology_direction_agent.py /
-    next_steps_agent.py need). A caller checking a different kind of report
-    — e.g. professor_outreach_agent.py, which has nothing to do with country
-    cases or Economic/Technological/Military layers — should pass its own
-    prompt in the same VERDICT: PASS / VERDICT: FAIL + GAPS: format instead
-    of silently being checked against criteria that don't apply to it.
+    `system_prompt` defaults to a generic grounding checklist. Every caller
+    should pass its own prompt in the same VERDICT: PASS / VERDICT: FAIL +
+    GAPS: format — e.g. startup_outreach_agent.py passes _INDEX_VERIFIER_PROMPT
+    — so the report is checked against criteria that actually apply to it.
     """
     gaps = check_sections_present(report_text, required_headers)
 
