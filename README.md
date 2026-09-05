@@ -90,13 +90,31 @@ bar. The credibility gate can't truly verify funding — it catches obvious
 misses and vague backers, and the model is told to confirm the backer via
 search before logging a company.
 
+## The review outbox
+
+Every run writes `sandbox/drafts/startups/OUTBOX.html`. Open it in a
+browser: one card per company, each with either
+
+- a **prefilled email** — an "Open in email client" button whose `mailto:`
+  link already carries the subject and body (and your contact line), or
+- when no public email was found, the **application URL** plus a table of
+  the exact field values to paste (name, email, LinkedIn, GitHub, and the
+  "a project you're proud of" answer, taken verbatim from the email's main
+  paragraph).
+
+Nothing is sent or submitted. You read each one and click the button
+yourself. The agent fills in `applicant.json` (your name/email/phone/links)
+from your profile at the start of the run; edit that file directly to fix
+anything, then `python action_tools.py outbox` rebuilds the page.
+
 ## Outputs
 
 - `sandbox/drafts/startups/*.md` — one file per company: backer, what they
-  do, the role (or a note that there's no posting), the fit point, and the
-  drafted email. Plus an index report. Git-ignored.
-- `action_items.json` — a tracked "send this email" item per draft, created
-  automatically. Git-ignored.
+  do, the role, where to send it, the fit point, and the drafted email.
+  Plus `OUTBOX.html`, `_leads.json`, and an index report. Git-ignored.
+- `applicant.json` — your own contact details, for pre-filling the outbox.
+  Git-ignored.
+- `action_items.json` — a tracked "send this" item per draft. Git-ignored.
 - `contacted_companies.json` — the cross-run list of who's been drafted.
   Git-ignored.
 
@@ -113,9 +131,9 @@ python action_tools.py in_progress 5
 
 ```
 startup_outreach_agent.py   the agent
-action_tools.py             action-item + draft tracking (CLI + tools)
+action_tools.py             tracking + draft files + the review outbox (CLI + tools)
 tools.py                    sandboxed file read/write/list
 verification.py             grounding checkpoint for the index report
-humanizer.py                light pass to de-robotify drafted prose
+humanizer.py                de-slop pass on every generated piece of text
 profile_template.md         copy to my_profile.md and fill in
 ```
